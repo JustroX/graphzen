@@ -1,0 +1,23 @@
+{
+  "name": "graphzen",
+  "version": "0.0.1",
+  "description": "Web of checklists",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustroX/graphzen.git"
+  },
+  "keywords": [
+    "checklist",
+    "web"
+  ],
+  "author": "Justine Che T. Romero",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JustroX/graphzen/issues"
+  },
+  "homepage": "https://github.com/JustroX/graphzen#readme"
+}
