@@ -23,6 +23,9 @@ export class Graphzen {
 
   /**
    * Parse text into the specified format
+   * @param text the text to be parsed
+   * @param format the format of the output
+   * @returns the parsed graphzen markup
    */
   async parse<T>(text: string, format: string = "tree") {
     const data = await this.formats[format].parse(text);
