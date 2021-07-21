@@ -170,6 +170,7 @@ export class TreeParser implements BaseFormat<ParsedTree> {
   }
 
   private handle_plain(line: string, state: ParsingState) {
+    if (line == "...") line = "...";
     const { stack } = state;
     const head = stack[stack.length - 1];
     if (!head) throw new Error("Notes has no parent task.");
