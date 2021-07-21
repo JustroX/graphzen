@@ -22,4 +22,10 @@ export interface BaseFormat<Format> {
    * @param text the text to be parsed
    */
   parse: (text: string) => Promise<Format>;
+
+  /**
+   * Iterable of tasks
+   * @param data parsed text
+   */
+  traverse(data: Format): Iterable<Task>;
 }

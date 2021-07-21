@@ -69,6 +69,23 @@ export class TreeParser implements BaseFormat<ParsedTree> {
     return result;
   }
 
+  /**
+   * Returns an iterable of the tasks in the tree
+   * @param tree parsed tree
+   * @returns iterable of the tasks in the tree
+   */
+  traverse(tree: ParsedTree): Iterable<Task> {
+    return (function* () {
+      const stack = [];
+      stack.push(...tree.tasks.reverse());
+      while (stack.length) {
+        const head = stack.pop() as Task;
+        if (head?.children.length) stack.push(...head.children.reverse());
+        yield head;
+      }
+    })();
+  }
+
   private cleanTasks(tasks: StackItem[]): Task[] {
     return tasks.map((x) => ({
       ...x,
