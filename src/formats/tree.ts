@@ -53,7 +53,7 @@ export class TreeParser implements BaseFormat<ParsedTree> {
       tasks: [],
       plugins: {},
     };
-    const lines = text.split("\n");
+    const lines = text.split("\n").map((x) => (!x ? "" : x));
     if (lines.length <= 0) throw new Error("Can not parse empty text.");
     let line: string | undefined = lines.shift() as string;
     result.name = line.trim();
