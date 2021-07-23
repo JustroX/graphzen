@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/JustroX/graphzen/issues"
   },
-  "homepage": "https://github.com/JustroX/graphzen#readme"
+  "homepage": "https://github.com/JustroX/graphzen#readme",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
 }
