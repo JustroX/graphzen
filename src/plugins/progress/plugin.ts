@@ -21,6 +21,7 @@ export class ProgressPlugin implements Plugin<Task, ParsedTree, ParsedTree> {
   async pre(tree: ParsedTree) {
     tree.flags.push("has_progress");
     this.file = tree.name;
+    if (!this.store[this.file]) this.store[this.file] = {};
     await this.pre_hook(tree.name);
   }
 
