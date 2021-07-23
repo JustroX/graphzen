@@ -40,7 +40,11 @@ export class ProgressPlugin implements Plugin<Task, ParsedTree, ParsedTree> {
 
   async post(data: ParsedTree): Promise<ParsedTree> {
     if (this.all_checked) data.flags.push("is_checked");
-    data.plugins.progress.latest = this.latest as string;
+    data.plugins = {
+      progress: {
+        latest: this.latest as string,
+      },
+    };
     return data;
   }
 }
