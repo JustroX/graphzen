@@ -72,6 +72,8 @@ export class BrowserProgress {
    * @returns the plugin
    */
   plugin() {
-    return new ProgressPlugin(this.store[this.file]);
+    return new ProgressPlugin(this.store, async (file) => {
+      this.file = file;
+    });
   }
 }
