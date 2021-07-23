@@ -77,10 +77,11 @@ export class TreeParser implements BaseFormat<ParsedTree> {
   traverse(tree: ParsedTree): Iterable<Task> {
     return (function* () {
       const stack = [];
-      stack.push(...tree.tasks.reverse());
+      stack.push(...tree.tasks.slice().reverse());
       while (stack.length) {
         const head = stack.pop() as Task;
-        if (head?.children.length) stack.push(...head.children.reverse());
+        if (head?.children.length)
+          stack.push(...head.children.slice().reverse());
         yield head;
       }
     })();
