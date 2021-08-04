@@ -30,7 +30,7 @@ export class Lexer {
         if (rule.will_enforce(state)) {
           let token: Token;
           let new_lines: number;
-          if (({ token, new_lines } = rule.tokenize(src))) {
+          if (({ token, new_lines } = rule.tokenize(src, state))) {
             src = src.substring(token.raw.length);
             state.line_count += new_lines;
             tokens.push(token);

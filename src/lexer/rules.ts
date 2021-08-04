@@ -1,11 +1,11 @@
-import { LexerState } from ".";
+import { Lexer, LexerState } from ".";
 import { Token } from "./tokenizer";
 
 export type RuleSet = Rule[];
 
 interface RuleOptions {
   token_type: string;
-  tokenizer: (src: string) => Token;
+  tokenizer: (src: string, state: LexerState) => Token;
   guards: ((state: LexerState) => void)[];
   flags: {
     override_guard: boolean;
@@ -47,8 +47,8 @@ export class Rule {
     return this.options.guards.every((x) => x(state));
   }
 
-  tokenize(src: string) {
-    const token = this.options.tokenizer(src);
+  tokenize(src: string, state: LexerState) {
+    const token = this.options.tokenizer(src, state);
     const new_lines = (token.raw.match(/\r\n|\r|\n/g) || "").length;
     return {
       token,
