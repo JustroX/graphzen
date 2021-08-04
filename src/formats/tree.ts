@@ -7,6 +7,7 @@ import { BaseFormat, Task } from "./base";
 export interface ParsedTree {
   version: "1.0.0";
   name: string;
+  description: string;
   flags: string[];
   tasks: Task[];
   plugins: {
@@ -49,6 +50,7 @@ export class TreeParser implements BaseFormat<ParsedTree> {
     const result: ParsedTree = {
       version: "1.0.0",
       name: "",
+      description: "",
       flags: [],
       tasks: [],
       plugins: {},
@@ -171,19 +173,22 @@ export class TreeParser implements BaseFormat<ParsedTree> {
   }
 
   private handle_plain(line: string, state: ParsingState) {
-    if (line == "\\...") line = "...";
+    const indention = line.length - line.trimLeft().length;
+    if (line.trim() == "\\...") line = " ".repeat(indention) + "...";
     const { stack } = state;
     const head = stack[stack.length - 1];
     if (!head) throw new Error("Notes has no parent task.");
 
-    if (head.notes == "")
-      state.md_indent = line.length - line.trimLeft().length;
+    if (head) {
+      if (head.notes == "")
+        state.md_indent = line.length - line.trimLeft().length;
 
-    const indent = line.length - line.trimLeft().length;
-    if (indent >= state.md_indent) line = line.slice(state.md_indent);
-    else state.md_indent = indent;
+      const indent = line.length - line.trimLeft().length;
+      if (indent >= state.md_indent) line = line.slice(state.md_indent);
+      else state.md_indent = indent;
 
-    head.notes += `${line}\n`;
+      head.notes += `${line}\n`;
+    }
   }
 
   private parse_prop(line: string) {

@@ -1,0 +1,116 @@
+Graphzen
+- Introduction
+    ...
+    # Introduction
+    > This is graphzen &mdash; a decentralized web of checklists.
+
+    ### What is Graphzen?
+
+    Graphzen is a proposal to create a standard file exchange format for checklists. Upon adoption, it aims to achieve an interlinked web of procedural checklists that could span to various organizational processes.
+
+    Features includes:
+    - Simple and intuitive syntax
+    - Hyperlinking between different checklists
+    - Customizable and open-source checklist browser
+
+    ### Motivation
+
+    Processing professional documents that requires inter-organizational transactions ( e.g. government forms, medical requirements, institutional clearances, etc. ) is VERY time consuming. 
+    A big factor in this inefficiency is the impossibility to know all of their dependencies ahead of time (You'll only be aware of what they require once you're already there 😟). On troublesome occasions, they happen to have circular dependencies 🤦‍♀️.
+
+    On a related note, checklist apps are springing up like mushrooms!
+    Although it offers consumers a lot of choices, integrating all of them can be chaotic. 
+
+    This is where [Graphzen](https://github.com/JustroX/graphzen) comes into play. [Graphzen](https://github.com/JustroX/graphzen) provides a standard interface in exhanging checklist information between different systems so that tasks integration and dependency resolution is better and faster.
+
+    [Graphzen](https://github.com/JustroX/graphzen) is heavily inspired by the World Wide Web. W3 is for documents, while [Graphzen](https://github.com/JustroX/graphzen) is for checklists.
+    ...
+- Getting Started
+    ...
+    # Getting Started
+
+    Graphzen's notation is familiar and intuitive.
+    Here are some examples
+    ...
+    
+    - Basic List
+        ...
+        ### Basic List
+        A basic checklist should contain
+        
+        - A title - title is defined to be the entire first line of the file.
+        - At least one checklist item - a checklist item is defined by prefixing a line with a `- `
+        
+        Example:
+        ```
+        Shopping list
+        - Bread
+        - Milk
+        - Butter
+        ```
+        ...
+    - Nested Items
+        ...
+        ### Nested Items
+        You can nest items by indenting the a line. A line with more indention than its previous line is considered to be a subitem of the previous item.
+        
+        ```
+        Shopping List
+        - Fruits
+            - Apple
+            - Banana
+            - Orange
+        - Frozen
+            - Hotdog
+            - Milk
+            - Ice cream
+        ```
+        ...
+    - Linked to other checklist
+        ...
+        ### Linked item to a seperate file.
+        You can link an item to a separate Graphzen checklist.
+        Just add a pipe `|` character and supply the URL of the checklist to the `ref` attribute.
+        
+        ```
+        Some serious form processing
+        - Accomplish form from department A | ref=link_to_department_a.gtxt
+        - Accomplish form from department B | ref=link_to_department_b.gtxt
+        ```
+        ...
+    - Item with notes
+        ...
+        ### Item notes
+        You can add a note to an item. A note block starts and ends with a `...`.
+        The note belongs to the adjacent item declared above it.
+        
+        ```
+        Shopping List
+        - Fruits
+            \...
+                Fruits are the best.
+            \...
+        - Frozen
+            - Ice cream
+                \...
+                    Mango graham plss
+                \...
+        ```
+
+Depending on your Graphzen browser, the notes can be parsed as markdown and/or latex.
+
+        ```
+        Markdown example
+        - Item 1
+            \...
+                \# This is a heading
+                This note supports \*\*markdown\*\*. 
+                Latex equation: \$ a^2 + b^2 = c^2 \$
+            \...
+        ```
+        ...
+- Roadmap
+    - Support for unordered list items
+    - Recursive progress completion
+    - Upload / Download progress file
+    - Main editor
