@@ -1,11 +1,11 @@
-import { Lexer, LexerState } from ".";
+import { LexerState } from ".";
 import { Token } from "./tokenizer";
 
 export type RuleSet = Rule[];
 
 interface RuleOptions {
   token_type: string;
-  tokenizer: (src: string, state: LexerState) => Token;
+  tokenizer: (src: string, state: LexerState) => Token | undefined;
   guards: ((state: LexerState) => void)[];
   flags: {
     override_guard: boolean;
@@ -16,7 +16,7 @@ export class Rule {
   private options: RuleOptions;
   constructor(opts: {
     token_type: string;
-    tokenizer: (src: string) => Token;
+    tokenizer: (src: string, state: LexerState) => Token | undefined;
     guards?: ((state: LexerState) => void)[];
     flags?: {
       override_guard?: boolean;
@@ -49,10 +49,12 @@ export class Rule {
 
   tokenize(src: string, state: LexerState) {
     const token = this.options.tokenizer(src, state);
-    const new_lines = (token.raw.match(/\r\n|\r|\n/g) || "").length;
-    return {
-      token,
-      new_lines,
-    };
+    if (token) {
+      const new_lines = (token.raw.match(/\r\n|\r|\n/g) || "").length;
+      return {
+        token,
+        new_lines,
+      };
+    }
   }
 }
