@@ -5,6 +5,7 @@ import { Token } from "./tokenizer";
  * State during lexing
  */
 export interface LexerState {
+  state_name: string;
   line_count: number;
 }
 
@@ -22,15 +23,16 @@ export class Lexer {
     const tokens: Token[] = [];
     const state: LexerState = {
       line_count: 0,
+      state_name: "title",
     };
 
     while (src) {
       let matched = false;
       for (const rule of this.ruleset) {
         if (rule.will_enforce(state)) {
-          let token: Token;
-          let new_lines: number;
-          if (({ token, new_lines } = rule.tokenize(src, state))) {
+          let tokenizer_result: { token: Token; new_lines: number } | undefined;
+          if ((tokenizer_result = rule.tokenize(src, state))) {
+            const { token, new_lines } = tokenizer_result;
             src = src.substring(token.raw.length);
             state.line_count += new_lines;
             tokens.push(token);
