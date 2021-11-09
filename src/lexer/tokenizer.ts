@@ -1,5 +1,5 @@
-export interface Token {
+export interface Token<T = string> {
   type: string;
   raw: string;
-  value: string;
+  value: T;
 }

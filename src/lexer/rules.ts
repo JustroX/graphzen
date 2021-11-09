@@ -1,26 +1,28 @@
 import { LexerState } from ".";
 import { Token } from "./tokenizer";
 
-export type RuleSet = Rule[];
+export type RuleSet = Rule<any>[];
 
-interface RuleOptions {
+interface RuleOptions<T = string> {
   token_type: string;
-  tokenizer: (src: string, state: LexerState) => Token | undefined;
+  tokenizer: (src: string, state: LexerState) => Token<T> | undefined;
   guards: ((state: LexerState) => void)[];
+  update_state?: (state: LexerState) => void;
   flags: {
     override_guard: boolean;
   };
 }
 
-export class Rule {
-  private options: RuleOptions;
+export class Rule<T = string> {
+  private options: RuleOptions<T>;
   constructor(opts: {
     token_type: string;
-    tokenizer: (src: string, state: LexerState) => Token | undefined;
+    tokenizer: (src: string, state: LexerState) => Token<T> | undefined;
     guards?: ((state: LexerState) => void)[];
     flags?: {
       override_guard?: boolean;
     };
+    update_state?: RuleOptions["update_state"];
   }) {
     if (!opts.guards) opts.guards = [];
     if (!opts.flags)
@@ -36,11 +38,17 @@ export class Rule {
     this.options = {
       token_type: opts.token_type,
       tokenizer: opts.tokenizer,
+      update_state: opts.update_state,
       guards: opts.guards,
       flags: {
         override_guard: opts.flags.override_guard,
       },
     };
+  }
+
+  update_state(state: LexerState) {
+    if (this.options.update_state) this.options.update_state(state);
+    return state;
   }
 
   will_enforce(state: LexerState) {
